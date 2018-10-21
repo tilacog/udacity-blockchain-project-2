@@ -55,7 +55,7 @@ context("Modify simpleChain.js functions to persist data with LevelDB", function
         let blockchain = create_test_blockchain();
         for (let i=0; i < blockchain.chain.length; i++) {
             let block = blockchain.chain[i];
-            db.get(block.hash, function(err, persisted_block) {
+            db.get(block.height, function(err, persisted_block) {
                 if (err) throw err;
                 assert.equal(JSON.stringify(block), persisted_block)
             })
@@ -65,7 +65,7 @@ context("Modify simpleChain.js functions to persist data with LevelDB", function
     specify("Genesis block persist as the first block in the blockchain using LevelDB", function() {
         let blockchain = new Blockchain();
 	let genesis_block = blockchain.chain[0];
-        db.get(genesis_block.hash, function(err, persisted_block) {
+        db.get(genesis_block.height, function(err, persisted_block) {
             if (err) throw err;
             assert.equal(JSON.stringify(genesis_block), persisted_block)
         })

@@ -45,7 +45,7 @@ class Blockchain{
         // Adding block object to chain
         this.chain.push(newBlock);
 	// persist this block on LevelDB
-	addLevelDBData(newBlock.hash, JSON.stringify(newBlock));
+	addLevelDBData(newBlock.height, JSON.stringify(newBlock));
 
     }
 
