@@ -44,11 +44,9 @@ function addDataToLevelDB(value) {
    |    Bitcoin blockchain adds 8640 blocks per day                               |
    |     ( new block every 10 minutes )                                           |
    |  ===========================================================================*/
-
-
-(function theLoop (i) {
-    setTimeout(function () {
-        addDataToLevelDB('Testing data');
-        if (--i) theLoop(i);
-    }, 100);
-})(10);
+// (function theLoop (i) {
+//     setTimeout(function () {
+//         addDataToLevelDB('Testing data');
+//         if (--i) theLoop(i);
+//     }, 100);
+// })(10);
