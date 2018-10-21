@@ -44,6 +44,9 @@ class Blockchain{
         newBlock.hash = SHA256(JSON.stringify(newBlock)).toString();
         // Adding block object to chain
         this.chain.push(newBlock);
+	// persist this block on LevelDB
+	addLevelDBData(newBlock.hash, JSON.stringify(newBlock));
+
     }
 
     // Get block height
