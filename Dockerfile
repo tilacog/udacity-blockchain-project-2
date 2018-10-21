@@ -2,11 +2,9 @@ FROM node
 
 WORKDIR /app
 
-RUN npm init --yes
-RUN npm install crypto-js --save
-RUN npm install level --save
-
-RUN npm install --save-dev mocha
+# cache deps
+COPY ./package.json ./
+RUN npm install
 
 COPY . /app
-CMD ./node_modules/mocha/bin/mocha ./tests
+CMD npm test

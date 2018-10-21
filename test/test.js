@@ -36,7 +36,7 @@ describe('README.md test', function() {
 })
 
 
-describe('Configure LevelDB to persist dataset', function() {
+context('Configure LevelDB to persist dataset', function() {
     it('should persist and retrieve the entire blockchain using LevelDB', function() {
         // persist
         let blockchain = create_test_blockchain();
@@ -50,8 +50,8 @@ describe('Configure LevelDB to persist dataset', function() {
 })
 
 
-describe("Modify simpleChain.js functions to persist data with LevelDB", function() {
-    it("addBlock(newBlock) function includes a method to store newBlock with LevelDB.", function() {
+context("Modify simpleChain.js functions to persist data with LevelDB", function() {
+    specify("addBlock(newBlock) function includes a method to store newBlock with LevelDB.", function() {
         let blockchain = create_test_blockchain();
         for (let i=0; i < blockchain.chain.length; i++) {
             let block = blockchain.chain[i];
@@ -62,7 +62,7 @@ describe("Modify simpleChain.js functions to persist data with LevelDB", functio
         }
     })
 
-    it("Genesis block persist as the first block in the blockchain using LevelDB", function() {
+    specify("Genesis block persist as the first block in the blockchain using LevelDB", function() {
         let blockchain = new Blockchain();
 	let genesis_block = blockchain.chain[0];
         db.get(genesis_block.hash, function(err, persisted_block) {
