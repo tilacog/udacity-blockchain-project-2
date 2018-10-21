@@ -91,8 +91,15 @@ class Blockchain{
         if (errorLog.length>0) {
             console.log('Block errors = ' + errorLog.length);
             console.log('Blocks: '+errorLog);
+	    return false
         } else {
             console.log('No errors detected');
+	    return true
         }
     }
+
+
+module.exports = {
+    Block: Block,
+    Blockchain: Blockchain,
 }
