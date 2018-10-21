@@ -3,7 +3,7 @@
    |  =========================================================*/
 
 const SHA256 = require('crypto-js/sha256');
-const {db, addLevelDBData} ,= require('./levelSandbox');
+const {db, addLevelDBData} = require('./levelSandbox');
 
 
 /* ===== Block Class ==============================
