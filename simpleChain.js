@@ -103,7 +103,7 @@ class Blockchain{
     persistOnLevelDB(){
         for (let i = 0; i < this.chain.length; i++) {
             let block = this.chain[i];
-            addLevelDBData(block.hash, block);
+            addLevelDBData(block.hash, JSON.stringify(block));
         }
     }
 }

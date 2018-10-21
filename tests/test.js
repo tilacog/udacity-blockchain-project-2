@@ -46,7 +46,7 @@ describe('Configure LevelDB to persist dataset', function() {
 	    let block = blockchain.chain[i];
 	    db.get(block.hash, function (err, persisted_block) {
 		if (err) throw err;
-		assert.equal(block, persisted_block);
+		assert.equal(JSON.stringify(block), persisted_block);
 	    });
 	}
     })
