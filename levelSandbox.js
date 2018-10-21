@@ -50,3 +50,10 @@ function addDataToLevelDB(value) {
 //         if (--i) theLoop(i);
 //     }, 100);
 // })(10);
+
+
+module.exports = {
+    db: db,
+    addLevelDBData: addLevelDBData,
+    getLevelDBData: getLevelDBData,
+}

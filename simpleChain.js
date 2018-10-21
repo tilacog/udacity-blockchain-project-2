@@ -3,6 +3,7 @@
    |  =========================================================*/
 
 const SHA256 = require('crypto-js/sha256');
+const {db, addLevelDBData} ,= require('./levelSandbox');
 
 
 /* ===== Block Class ==============================
@@ -97,6 +98,15 @@ class Blockchain{
 	    return true
         }
     }
+
+    // Persist this chain's blocks on LevelDB by their hash values
+    persistOnLevelDB(){
+        for (let i = 0; i < this.chain.length; i++) {
+            let block = this.chain[i];
+            addLevelDBData(block.hash, block);
+        }
+    }
+}
 
 
 module.exports = {
