@@ -99,12 +99,9 @@ class Blockchain{
         }
     }
 
-    // Persist this chain's blocks on LevelDB by their hash values
+    // Persist the whole blockchain into LevelDB
     persistOnLevelDB(){
-        for (let i = 0; i < this.chain.length; i++) {
-            let block = this.chain[i];
-            addLevelDBData(block.hash, JSON.stringify(block));
-        }
+        addLevelDBData('blockchain', JSON.stringify(this));
     }
 }
 

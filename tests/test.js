@@ -37,17 +37,16 @@ describe('README.md test', function() {
 
 
 describe('Configure LevelDB to persist dataset', function() {
-    it('should persist and retrieve blocks using LevelDB', function() {
-	// persist
-	let blockchain = create_test_blockchain();
-	blockchain.persistOnLevelDB();
-	// retrieve
-	for (let i = 0; i < blockchain.chain.length; i++) {
-	    let block = blockchain.chain[i];
-	    db.get(block.hash, function (err, persisted_block) {
-		if (err) throw err;
-		assert.equal(JSON.stringify(block), persisted_block);
-	    });
-	}
+    it('should persist and retrieve the entire blockchain using LevelDB', function() {
+        // persist
+        let blockchain = create_test_blockchain();
+        blockchain.persistOnLevelDB();
+        // retrieve
+        db.get('blockchain', function (err, persisted_blockchain) {
+            if (err) throw err;
+            assert.equal(JSON.stringify(blockchain), persisted_blockchain);
+        });
+    })
+})
     })
 })
