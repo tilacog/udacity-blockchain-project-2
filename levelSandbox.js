@@ -8,17 +8,14 @@ const db = level(chainDB);
 
 // Add data to levelDB with key/value pair
 function addLevelDBData(key,value){
-    db.put(key, value, function(err) {
+    return db.put(key, value, function(err) {
         if (err) return console.log('Block ' + key + ' submission failed', err);
     })
 }
 
 // Get data from levelDB with key
 function getLevelDBData(key){
-    db.get(key, function(err, value) {
-        if (err) return console.log('Not found!', err);
-        console.log('Value = ' + value);
-    })
+    return db.get(key);
 }
 
 // Add data to levelDB with value

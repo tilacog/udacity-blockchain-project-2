@@ -1,6 +1,6 @@
 const assert = require('assert');
 const {Block, Blockchain} = require('../simpleChain');
-const {db} = require('../levelSandbox');
+const {db, addLevelDBData} = require('../levelSandbox');
 
 
 function create_test_blockchain() {
@@ -12,7 +12,7 @@ function create_test_blockchain() {
 }
 
 
-describe('[Smoke Test] #indexOf()', function() {
+describe('[Smoke Test] #indexOf()', async function() {
     it('should return -1 when the value is not present', function() {
         assert.equal([1,2,3].indexOf(4), -1);
     });
@@ -20,18 +20,21 @@ describe('[Smoke Test] #indexOf()', function() {
 
 
 describe('README.md test', function() {
-    it('should validate when valid', function() {
+    it('should validate when valid', async function() {
 	let blockchain = create_test_blockchain();
-        assert(blockchain.validateChain());
+        assert(await blockchain.validateChain());
     })
-    it('should not validate when invalid', function() {
+    it('should not validate when invalid', async function() {
         let blockchain = create_test_blockchain();
         // Induce errors by changing block data
         let inducedErrorBlocks = [2,4,7];
         for (var i = 0; i < inducedErrorBlocks.length; i++) {
-            blockchain.chain[inducedErrorBlocks[i]].data='induced chain error';
+	    const block = await blockchain.getBlock(i);
+	    block.data = 'induced chain error';
+	    await addLevelDBData(block.height, JSON.stringify(block));
         }
-        assert(!blockchain.validateChain());
+	const is_valid = await blockchain.validateChain();
+        assert(!is_valid);
     })
 })
 

@@ -3,7 +3,7 @@
    |  =========================================================*/
 
 const SHA256 = require('crypto-js/sha256');
-const {db, addLevelDBData} = require('./levelSandbox');
+const {db, addLevelDBData, getLevelDBData} = require('./levelSandbox');
 
 
 /* ===== Block Class ==============================
@@ -55,15 +55,15 @@ class Blockchain{
     }
 
     // get block
-    getBlock(blockHeight){
-        // return object as a single string
-        return JSON.parse(JSON.stringify(this.chain[blockHeight]));
+    async getBlock(blockHeight){
+	let block = await getLevelDBData(blockHeight);
+	return JSON.parse(block)
     }
 
     // validate block
-    validateBlock(blockHeight){
+    async validateBlock(blockHeight){
         // get block object
-        let block = this.getBlock(blockHeight);
+        let block = await this.getBlock(blockHeight);
         // get block hash
         let blockHash = block.hash;
         // remove block hash to test block integrity
@@ -80,11 +80,12 @@ class Blockchain{
     }
 
     // Validate blockchain
-    validateChain(){
+    async validateChain(){
         let errorLog = [];
         for (var i = 0; i < this.chain.length-1; i++) {
             // validate block
-            if (!this.validateBlock(i))errorLog.push(i);
+	    const valid_block = await this.validateBlock(i)
+            if (!valid_block) errorLog.push(i);
             // compare blocks hash link
             let blockHash = this.chain[i].hash;
             let previousHash = this.chain[i+1].previousBlockHash;
