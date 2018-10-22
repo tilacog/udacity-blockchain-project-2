@@ -8,15 +8,24 @@ const db = level(chainDB);
 
 // Add data to levelDB with key/value pair
 function addLevelDBData(key,value){
-    return db.put(key, value, function(err) {
-        if (err) return console.log('Block ' + key + ' submission failed', err);
-    })
+    return db.put(key, value)
 }
 
 // Get data from levelDB with key
 function getLevelDBData(key){
     return db.get(key);
 }
+
+// Returns how many entries exists on database
+function countEntries() {
+  return new Promise((resolve, reject) => {
+     var count = 0;
+     db.createKeyStream()
+     .on('data', (data) => {count++ })
+     .on('close', () => {resolve(count -1)});
+  })
+}
+
 
 // Add data to levelDB with value
 function addDataToLevelDB(value) {
@@ -53,4 +62,5 @@ module.exports = {
     db: db,
     addLevelDBData: addLevelDBData,
     getLevelDBData: getLevelDBData,
+    countEntries: countEntries,
 }
