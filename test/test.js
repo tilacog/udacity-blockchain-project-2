@@ -1,6 +1,6 @@
 const assert = require('assert');
 const {Block, Blockchain} = require('../simpleChain');
-const {db, addLevelDBData, countEntries} = require('../levelSandbox');
+const {db, addLevelDBData, getLevelDBData, countEntries} = require('../levelSandbox');
 
 
 async function create_test_blockchain() {
@@ -77,4 +77,43 @@ context("Modify simpleChain.js functions to persist data with LevelDB", function
         })
     })
 
+})
+
+
+/*
+URL: https://review.udacity.com/#!/reviews/1521780
+
+TITLE:Unable to review
+
+REVIEWER NOTES:
+
+Your project could not be reviewed. Please resubmit
+after you address the issue noted below by the reviewer.
+
+I am not able to add and get blocks ... I get the foll error:
+I tried adding 2 blocks and retrieving second block
+*/
+context("Add two blocks and retrieve the second one", function() {
+    specify("Reviewer issue", async function() {
+	let blockchain = new Blockchain();
+	console.log("created a new (empty) blockchain:")
+	console.log(blockchain);
+	assert.equal(await blockchain.getBlockHeight(), 0);
+
+	console.log("Adding the first block to the blockchain");
+	await blockchain.addBlock(new Block("first block"));
+	assert.equal(await blockchain.getBlockHeight(), 1);
+	let first_block = JSON.parse(await getLevelDBData(0));
+	console.log("First block hash: " + first_block.hash);
+
+	console.log("Adding a second block to the blockchain");
+	await blockchain.addBlock(new Block("second block"));
+	assert.equal(await blockchain.getBlockHeight(), 2);
+	// console.log(blockchain);
+
+	console.log("Retrieving second block by its height");
+	let second_block = JSON.parse(await getLevelDBData(1));
+	console.log(second_block);
+
+    })
 })

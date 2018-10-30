@@ -3,7 +3,7 @@
    |  =========================================================*/
 
 const SHA256 = require('crypto-js/sha256');
-const {db, addLevelDBData, getLevelDBData, countEntries} = require('./levelSandbox');
+const {db, addLevelDBData, getLevelDBData, clean_db, countEntries} = require('./levelSandbox');
 
 
 /* ===== Block Class ==============================
@@ -30,13 +30,13 @@ class Blockchain{
     }
 
     async init() {
+	await clean_db();
 	await this.addBlock(new Block("First block in the chain - Genesis block"));
     }
 
     // Add new block
     async addBlock(newBlock){
         // Block height
-        // newBlock.height = this.chain.length;
 	newBlock.height = await this.getBlockHeight();
 	// UTC timestamp
         newBlock.time = new Date().getTime().toString().slice(0,-3);
@@ -55,8 +55,7 @@ class Blockchain{
 
     // Get block height
     async getBlockHeight(){
-        // return this.chain.length-1;
-	return await countEntries()
+	return await countEntries() -1
     }
 
     // get block

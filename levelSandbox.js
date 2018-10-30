@@ -21,8 +21,8 @@ function countEntries() {
   return new Promise((resolve, reject) => {
      var count = 0;
      db.createKeyStream()
-     .on('data', (data) => {count++ })
-     .on('close', () => {resolve(count -1)});
+	  .on('data', (data) => { count++ })
+	  .on('close', () => {resolve(count)});
   })
 }
 
@@ -39,6 +39,19 @@ function addDataToLevelDB(value) {
         addLevelDBData(i, value);
     });
 }
+
+
+async function clean_db() {
+    db.createKeyStream()
+	.on('data', function (key) {
+	    db.del(key, function (err) {
+		if (err)
+		    console.log("error deleting key")
+	    });
+	})
+}
+
+
 
 /* ===== Testing ==============================================================|
    |  - Self-invoking function to add blocks to chain                             |
@@ -63,4 +76,5 @@ module.exports = {
     addLevelDBData: addLevelDBData,
     getLevelDBData: getLevelDBData,
     countEntries: countEntries,
+    clean_db: clean_db,
 }
